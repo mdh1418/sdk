@@ -82,6 +82,8 @@ public class MonoAOTCompiler : Microsoft.Build.Utilities.Task
 
     public override bool Execute()
     {
+        Utils.Logger = Log;
+
         if (string.IsNullOrEmpty(CompilerBinaryPath))
         {
             throw new ArgumentException($"'{nameof(CompilerBinaryPath)}' is required.", nameof(CompilerBinaryPath));
@@ -153,6 +155,8 @@ public class MonoAOTCompiler : Microsoft.Build.Utilities.Task
         {
             processArgs.AddRange(p.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries));
         }
+
+        Utils.LogInfo($"[AOT] {assembly}");
 
         processArgs.Add("--debug");
 
@@ -230,6 +234,9 @@ public class MonoAOTCompiler : Microsoft.Build.Utilities.Task
             {"MONO_PATH", directory},
             {"MONO_ENV_OPTIONS", String.Empty} // we do not want options to be provided out of band to the cross compilers
         };
+
+        // run the AOT compiler
+        Utils.RunProcess(CompilerBinaryPath, String.Join(" ", processArgs), envVariables, directory);
 
         compiledAssemblies.Add(aotAssembly);
     }

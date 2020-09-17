@@ -135,7 +135,7 @@ public class AppleAppBuilderTask : Task
         string binDir = Path.Combine(AppDir, $"bin-{ProjectName}-{Arch}");
         if (!string.IsNullOrEmpty(OutputDirectory))
         {
-            binDir = OutputDirectory;
+            binDir = OutputDirectory ?? throw new ArgumentNullException();
         }
         Directory.CreateDirectory(binDir);
 
