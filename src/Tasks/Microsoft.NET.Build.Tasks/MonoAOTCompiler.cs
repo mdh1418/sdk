@@ -145,13 +145,13 @@ public class MonoAOTCompiler : Microsoft.Build.Utilities.Task
         var a = assemblyItem.GetMetadata("AotArguments");
         if (a != null)
         {
-             aotArgs.AddRange(a.Split(";", StringSplitOptions.RemoveEmptyEntries));
+            aotArgs.AddRange(a.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         var p = assemblyItem.GetMetadata("ProcessArguments");
         if (p != null)
         {
-            processArgs.AddRange(p.Split(";", StringSplitOptions.RemoveEmptyEntries));
+            processArgs.AddRange(p.Split(new char[]{';'}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         processArgs.Add("--debug");
